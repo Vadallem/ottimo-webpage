@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Minijuego 3D</title>
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Fondo oscuro moderno */
+            color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            width: 100%;
+            max-width: 1024px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-volver {
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .btn-volver:hover { color: #0ea5e9; }
+
+        /* --- CONTENEDOR DEL JUEGO (RESPONSIVE) --- */
+        .game-container {
+            position: relative;
+            width: 100%;
+            max-width: 960px; /* Ancho máximo en Laptops */
+            background-color: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            
+            /* RELACIÓN DE ASPECTO */
+            /* Si tu juego es horizontal usa 16/9. Si es vertical para móviles, cambia a 9/16 */
+            aspect-ratio: 16 / 9; 
+        }
+
+        /* El iframe ocupará todo el contenedor de forma limpia */
+        .game-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* --- CONTROLES ABAJO DEL JUEGO --- */
+        .game-controls {
+            width: 100%;
+            max-width: 960px;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+
+        .btn-fullscreen {
+            background-color: #38bdf8;
+            color: #0f172a;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-fullscreen:hover {
+            background-color: #7dd3fc;
+            transform: scale(1.02);
+        }
+
+        .btn-fullscreen:active {
+            transform: scale(0.98);
+        }
+
+        /* Adaptaciones específicas para Móviles */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            header h1 { font-size: 1.5rem; }
+            .game-container {
+                border-radius: 8px; /* Bordes un poco más pequeños en celular */
+            }
+        }
+        
+        /* Estilo del aviso (oculto por defecto) */
+        #aviso-girar {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #0f172a;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #aviso-girar .mensaje {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        /* EL TRUCO: Si la pantalla es de móvil/tablet Y está en vertical (Portrait), muestra el aviso */
+        @media (max-width: 992px) and (orientation: portrait) {
+            #aviso-girar {
+                display: flex;
+            }
+            /* Ocultamos el resto de la página para que no intente jugar en vertical */
+            header, .game-container, .game-controls {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Mi Minijuego 3D</h1>
+        <a href="index.html" class="btn-volver">← Volver al Inicio</a>
+    </header>
+
+    <div class="game-container" id="gameBox">
+        <iframe id="unityIframe" src="./game/index.html" allow="fullscreen"></iframe>
+    </div>
+
+    <div class="game-controls">
+        <button class="btn-fullscreen" id="fullscreenBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+            Pantalla Completa
+        </button>
+    </div>
+
+    <script>
+        const gameBox = document.getElementById('gameBox');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+        fullscreenBtn.addEventListener('click', () => {
+            // Solicitamos pantalla completa para el CONTENEDOR (así el iframe se estira con él)
+            if (gameBox.requestFullscreen) {
+                gameBox.requestFullscreen();
+            } else if (gameBox.webkitRequestFullscreen) { /* Safari / iOS */
+                gameBox.webkitRequestFullscreen();
+            } else if (gameBox.msRequestFullscreen) { /* IE11 */
+                gameBox.msRequestFullscreen();
+            }
+        });
+
+        // Opcional: Si quieres detectar cuándo sale de pantalla completa para hacer algo
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                console.log('Saliste de pantalla completa');
+            }
+        });
+    </script>
+        <div id="aviso-girar">
+        <div class="mensaje">
+            🔄 Por favor, gira tu dispositivo en horizontal para jugar.
+        </div>
+    </div>
+</body>
+</html>
