@@ -3,177 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Minijuego 3D</title>
-    <style>
-        /* --- ESTILOS GENERALES --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #0f172a; /* Fondo oscuro moderno */
-            color: #f8fafc;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        header {
-            width: 100%;
-            max-width: 1024px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .btn-volver {
-            color: #38bdf8;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.2s;
-        }
-        .btn-volver:hover { color: #0ea5e9; }
-
-        /* --- CONTENEDOR DEL JUEGO (VISTA NORMAL EN PC) --- */
-        .game-container {
-            position: relative;
-            width: 100%;
-            max-width: 960px; /* Ancho en Laptop */
-            background-color: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-            aspect-ratio: 16 / 9; 
-        }
-
-        .game-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* --- EL TRUCO PARA PC: ELIMINAR BORDES NEGROS EN PANTALLA COMPLETA ---
-           Cuando el contenedor entra en modo fullscreen, obligamos a que ocupe el 100% 
-           de la pantalla del monitor, ignorando el max-width y el aspect-ratio previos.
-        */
-        .game-container:fullscreen {
-            max-width: none !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            aspect-ratio: auto !important;
-            border-radius: 0 !important;
-        }
-        /* Soporte para Safari/iOS y navegadores basados en Webkit antiguos */
-        .game-container:-webkit-full-screen {
-            max-width: none !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            aspect-ratio: auto !important;
-            border-radius: 0 !important;
-        }
-
-        .game-container:fullscreen iframe,
-        .game-container:-webkit-full-screen iframe {
-            width: 100% !important;
-            height: 100% !important;
-        }
-
-        /* --- PORTADA / SPLASH SCREEN CON BOTÓN JUGAR --- */
-        .splash-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10; /* Por encima del iframe */
-        }
-
-        .btn-jugar {
-            background-color: #22c55e; /* Verde vibrante */
-            color: #ffffff;
-            border: none;
-            padding: 18px 45px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);
-            transition: transform 0.2s, background-color 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-jugar:hover {
-            background-color: #16a34a;
-            transform: scale(1.05);
-        }
-
-        .btn-jugar:active {
-            transform: scale(0.95);
-        }
-
-        /* --- AVISO PARA GIRAR EL TELÉFONO (SE CONSERVA) --- */
-        #aviso-girar {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #0f172a;
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
-
-        #aviso-girar .mensaje {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #38bdf8;
-        }
-
-        @media (max-width: 992px) and (orientation: portrait) {
-            #aviso-girar { display: flex; }
-            header, .game-container { display: none !important; }
-        }
-
-        @media (max-width: 768px) {
-            body { padding: 10px; }
-            header h1 { font-size: 1.5rem; }
-            .game-container { border-radius: 8px; }
-        }
-    </style>
+    <title>Ottimo Caffe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="game.css">
 </head>
 <body>
 
-    <header>
-        <h1>Mi Minijuego 3D</h1>
-        <a href="index.html" class="btn-volver">← Volver al Inicio</a>
-    </header>
-
     <div class="game-container" id="gameBox">
-        
+
         <div id="splashScreen" class="splash-overlay">
-            <button class="btn-jugar" id="playBtn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                JUGAR NOW
-            </button>
+            <button class="btn-jugar" id="playBtn">Jugar</button>
+            <a href="index.html" class="btn-volver">← Volver al Inicio</a>
         </div>
 
         <iframe id="unityIframe" src="./game/index.html" allow="fullscreen"></iframe>
@@ -181,44 +23,10 @@
 
     <div id="aviso-girar">
         <div class="mensaje">
-            🔄 Por favor, gira tu dispositivo en horizontal para jugar.
+            Gira tu dispositivo en horizontal para jugar.
         </div>
     </div>
 
-    <script>
-        const gameBox = document.getElementById('gameBox');
-        const playBtn = document.getElementById('playBtn');
-        const splashScreen = document.getElementById('splashScreen');
-
-        // Al presionar JUGAR
-        playBtn.addEventListener('click', () => {
-            // 1. Forzar pantalla completa del contenedor
-            if (gameBox.requestFullscreen) {
-                gameBox.requestFullscreen();
-            } else if (gameBox.webkitRequestFullscreen) { /* Safari */
-                gameBox.webkitRequestFullscreen();
-            } else if (gameBox.msRequestFullscreen) { /* IE11 */
-                gameBox.msRequestFullscreen();
-            }
-            
-            // 2. Ocultamos la portada para revelar el iframe del juego
-            splashScreen.style.display = 'none';
-        });
-
-        // Evento para detectar cuándo se sale de pantalla completa (ej. presionar ESC)
-        const restaurarPortada = () => {
-            if (!document.fullscreenElement && 
-                !document.webkitFullscreenElement && 
-                !document.msFullscreenElement) {
-                // Si el usuario salió de pantalla completa, volvemos a mostrar la portada con el botón
-                splashScreen.style.display = 'flex';
-            }
-        };
-
-        document.addEventListener('fullscreenchange', restaurarPortada);
-        document.addEventListener('webkitfullscreenchange', restaurarPortada);
-        document.addEventListener('mozfullscreenchange', restaurarPortada);
-        document.addEventListener('MSFullscreenChange', restaurarPortada);
-    </script>
+    <script src="game.js"></script>
 </body>
 </html>
